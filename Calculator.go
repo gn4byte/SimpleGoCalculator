@@ -1,3 +1,5 @@
+//extensionfthecircle@gmail.com
+
 package main
 
 import (
@@ -23,7 +25,7 @@ func romanToArabic(romanA, romanB string) (int, int, error) {
 
 func arabicToRoman(arabic int) string {
 	if arabic < 1 {
-		return "Negative Roman numeral result"
+		return "Roman numeral result < 1"
 	}
 	//range для map не имеет порядка перебора, поэтому slice:(
 	arabicToRomanSlice := []struct {
@@ -37,13 +39,12 @@ func arabicToRoman(arabic int) string {
 	}
 
 	roman := ""
-	for _, mapping := range arabicToRomanSlice {
-		for arabic >= mapping.arabic {
-			roman += mapping.roman
-			arabic -= mapping.arabic
+	for _, current := range arabicToRomanSlice {
+		for arabic >= current.arabic && arabic > 0 {
+			roman += current.roman
+			arabic -= current.arabic
 		}
 	}
-
 	return roman
 }
 func inputConverter(expression string) (int, string, int, bool, error) {
@@ -70,6 +71,8 @@ func inputConverter(expression string) (int, string, int, bool, error) {
 					return 0, "", 0, false, errors.New("Only numerals from 1 to 10")
 				}
 				return A, operator, B, romanType, nil
+			} else {
+				return 0, "", 0, false, errors.New("Too hard expression for me:)")
 			}
 		}
 	}
@@ -92,6 +95,7 @@ func Calculator(A int, operator string, B int) int {
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
+		fmt.Println("Kata Test Task(Go Calculator)")
 		fmt.Println("Enter expression:")
 		expression, _ := reader.ReadString('\n')
 		expression = strings.TrimSpace(expression)
